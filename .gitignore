@@ -1,0 +1,11 @@
+.DS_Store
+db.sqlite3
+*.pyc
+*.djcache
+/static/
+/media/
+env/
+.vscode/
+.env.local
+.env.prod
+/typesense-data/
