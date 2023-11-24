@@ -9,3 +9,37 @@ class Profile(models.Model):
     
     def __str__(self):
         return self.user.username
+    
+    
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    
+
+class Recipe(models.Model):
+    title = models.CharField(max_length=200)
+    ingredients = models.TextField()
+    instructions = models.TextField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='recipes/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    categories = models.ManyToManyField(Category)
+    
+
+class Comment(models.Model):
+    recipe = models.ForeignKey(Recipe, related_name='comments', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+
+class Rating(models.Model):
+    recipe = models.ForeignKey(Recipe, related_name='ratings', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    score = models.IntegerField()
+    
+    
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+
+
