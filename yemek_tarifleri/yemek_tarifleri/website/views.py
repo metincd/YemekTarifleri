@@ -5,4 +5,4 @@ from datetime import datetime
 
 
 def welcome(request):
-    return HttpResponse("Yemek Tarifleri Projesine Hoşgeldiniz!")
+    return HttpResponse("Welcome to recipes homepage!")
