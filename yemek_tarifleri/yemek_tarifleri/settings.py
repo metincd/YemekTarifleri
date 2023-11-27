@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-r=o*j=bv4-3#q7%65+1+7+w47-+kddj-zk#yv_bvl$q=!59z1d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'yemek_tarifleri.apps.YemekTarifleriConfig',
 ]
 
 MIDDLEWARE = [
