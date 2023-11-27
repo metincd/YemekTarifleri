@@ -22,7 +22,6 @@ class Recipe(models.Model):
         ('SP', 'Special'),
     ]
     title = models.CharField(max_length=200)
-    ingredients = models.TextField()
     instructions = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='recipes/')
@@ -35,6 +34,28 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+    
+    
+class Ingredient(models.Model):
+    UNIT_CHOICES = [
+        ('KSK', 'Kaşık'),
+        ('BRD', 'Bardak'),
+        ('KG', 'Kilogram'),
+        ('GR', 'Gram'),
+        ('TM', 'Tutam'),
+        ('AVC', 'Avuç'),
+        ('GZK', 'Göz Kararı'),
+        ('ADT', 'Adet'),
+        ('YDM', 'Yudum'),
+    ]
+
+    recipe = models.ForeignKey(Recipe, related_name='ingredients', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    quantity = models.DecimalField(max_digits=5, decimal_places=2)
+    unit = models.CharField(max_length=3, choices=UNIT_CHOICES)
+
+    def __str__(self):
+        return f"{self.quantity} {self.get_unit_display()} {self.name}"
     
     
 class Comment(models.Model):
