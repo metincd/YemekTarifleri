@@ -10,6 +10,10 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
+    
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    
 
 class Recipe(models.Model):
     title = models.CharField(max_length=200)
@@ -18,6 +22,7 @@ class Recipe(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='recipes/')
     created_at = models.DateTimeField(auto_now_add=True)
+    categories = models.ManyToManyField(Category)
     
     
 class Comment(models.Model):
