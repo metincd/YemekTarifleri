@@ -9,3 +9,11 @@ class Profile(models.Model):
     
     def __str__(self):
         return self.user.username
+
+class Recipe(models.Model):
+    title = models.CharField(max_length=200)
+    ingredients = models.TextField()
+    instructions = models.TextField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='recipes/')
+    created_at = models.DateTimeField(auto_now_add=True)
