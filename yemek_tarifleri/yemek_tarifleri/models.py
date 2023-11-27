@@ -16,13 +16,25 @@ class Category(models.Model):
     
 
 class Recipe(models.Model):
+    CATEGORY_CHOICES = [
+        ('TR', 'Traditional'),
+        ('IN', 'International'),
+        ('SP', 'Special'),
+    ]
     title = models.CharField(max_length=200)
     ingredients = models.TextField()
     instructions = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='recipes/')
     created_at = models.DateTimeField(auto_now_add=True)
-    categories = models.ManyToManyField(Category)
+    category = models.CharField(
+        max_length=2,
+        choices=CATEGORY_CHOICES,
+        default='TR'
+    )
+
+    def __str__(self):
+        return self.title
     
     
 class Comment(models.Model):
