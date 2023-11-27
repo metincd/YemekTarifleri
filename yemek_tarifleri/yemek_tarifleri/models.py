@@ -9,6 +9,7 @@ class Profile(models.Model):
     
     def __str__(self):
         return self.user.username
+    
 
 class Recipe(models.Model):
     title = models.CharField(max_length=200)
@@ -16,4 +17,11 @@ class Recipe(models.Model):
     instructions = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='recipes/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    
+class Comment(models.Model):
+    recipe = models.ForeignKey(Recipe, related_name='comments', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
