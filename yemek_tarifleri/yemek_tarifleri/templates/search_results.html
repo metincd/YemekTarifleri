@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Arama Sonuçları</h2>
+    <ul>
+        {% for recipe in recipes %}
+            <li>{{ recipe.title }} - {{ recipe.instructions }}</li>
+        {% empty %}
+            <li>Sonuç bulunamadı.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

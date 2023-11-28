@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>En Çok Yorum Yapılan Tarifler</h2>
+    <ul>
+        {% for recipe in recipes %}
+            <li>{{ recipe.title }} - Yorum Sayısı: {{ recipe.comment_count }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

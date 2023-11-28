@@ -5,6 +5,8 @@ from django.db.models import Q
 from django.shortcuts import render
 from yemek_tarifleri.models import Recipe
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,4 +17,12 @@ urlpatterns = [
     path('latest/', views.latest_recipes, name='latest_recipes'),
     path('most-commented/', views.most_commented_recipes, name='most_commented_recipes'),
     path('chef-recommended/', views.chef_recommended, name='chef_recommended'),
+    path('', views.home, name='home'),
+    path('add-recipe/', views.add_recipe, name='add_recipe'),
+    path('profile/', views.profile, name='profile'),
+
+
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

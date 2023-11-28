@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>En Beğenilen Tarifler</h2>
+    <ul>
+        {% for recipe in recipes %}
+            <li>{{ recipe.title }} - Ortalama Puan: {{ recipe.average_rating }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

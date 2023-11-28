@@ -5,15 +5,23 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
-from yemek_tarifleri.models import Recipe
+from yemek_tarifleri.models import Recipe, Comment, Rating
 from django.shortcuts import render
 from .models import Recipe, Comment
 from django.db.models import Avg, Count
+from .forms import RecipeForm, IngredientFormSet
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render, redirect
+from .forms import CommentForm, RatingForm
+
 
 
 def welcome(request):
     return HttpResponse("Welcome to recipes homepage!")
 
+def home(request):
+    recipes = Recipe.objects.all()
+    return render(request, 'home.html', {'recipes': recipes})
 
 def signup(request):
     if request.method == 'POST':
@@ -76,3 +84,73 @@ def most_commented_recipes(request):
 def chef_recommended(request):
     recipes = Recipe.objects.filter(is_chef_recommended=True)[:5]
     return render(request, 'chef_recommended.html', {'recipes': recipes})
+
+
+def profile(request):
+    return render(request, 'profile.html', {'user': request.user})
+
+
+def add_recipe(request):
+    if request.method == 'POST':
+        form = RecipeForm(request.POST, request.FILES)
+        formset = IngredientFormSet(request.POST, request.FILES)
+        if form.is_valid() and formset.is_valid():
+            recipe = form.save(commit=False)
+            recipe.created_by = request.user
+            recipe.save()
+            formset.instance = recipe
+            formset.save()
+            
+    else:
+        form = RecipeForm()
+        formset = IngredientFormSet()
+    return render(request, 'add_recipe.html', {'form': form, 'formset': formset})
+
+
+def recipe_detail(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk)
+    comments = Comment.objects.filter(recipe=recipe)
+    ratings = Rating.objects.filter(recipe=recipe)
+    average_rating = ratings.aggregate(Avg('score'))['score__avg']
+    
+    return render(request, 'recipe_detail.html', {
+        'recipe': recipe,
+        'comments': comments,
+        'average_rating': average_rating
+    })
+
+
+def recipe_detail(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk)
+    comments = Comment.objects.filter(recipe=recipe)
+    ratings = Rating.objects.filter(recipe=recipe)
+    average_rating = ratings.aggregate(Avg('score'))['score__avg'] or 'Henüz puan verilmemiş'
+
+    if request.method == 'POST':
+        if 'submit_comment' in request.POST:  # Yorum formunun gönderilme işlemi
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.recipe = recipe
+                comment.author = request.user
+                comment.save()
+                return redirect('recipe_detail', pk=pk)
+        elif 'submit_rating' in request.POST:  # Puanlama formunun gönderilme işlemi
+            rating_form = RatingForm(request.POST)
+            if rating_form.is_valid():
+                rating = rating_form.save(commit=False)
+                rating.recipe = recipe
+                rating.user = request.user
+                rating.save()
+                return redirect('recipe_detail', pk=pk)
+    else:
+        comment_form = CommentForm()
+        rating_form = RatingForm()
+
+    return render(request, 'recipe_detail.html', {
+        'recipe': recipe,
+        'comments': comments,
+        'average_rating': average_rating,
+        'comment_form': comment_form,
+        'rating_form': rating_form
+    })
