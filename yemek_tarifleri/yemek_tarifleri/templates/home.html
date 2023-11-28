@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Hoş Geldiniz</h1>
-    <p>Yemek Tarifleri Sitesine Hoş Geldiniz!</p>
+<h1>Yemek Tarifleri Ana Sayfa</h1>
+<div class="recipes">
+  {% for recipe in recipes %}
+    <div class="recipe">
+      <h2>{{ recipe.title }}</h2>
+      <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" width="200">
+      <p>{{ recipe.instructions|slice:":150" }}...</p>
+    </div>
+  {% empty %}
+    <p>Henüz tarif eklenmemiş.</p>
+  {% endfor %}
+</div>
 {% endblock %}

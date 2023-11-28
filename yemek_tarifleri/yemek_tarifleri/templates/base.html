@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,6 +15,7 @@
                     <li><a href="{% url 'logout' %}">Çıkış Yap</a></li>
                     <li><a href="{% url 'add_recipe' %}">Tarif Ekle</a></li>
                     <li><a href="{% url 'profile' %}">Profil</a></li>
+                    <li><a href="{% url 'chef_recommended' %}">Şefin Önerileri</a></li>
                 {% else %}
                     <li><a href="{% url 'login' %}">Giriş Yap</a></li>
                     <li><a href="{% url 'signup' %}">Kayıt Ol</a></li>
