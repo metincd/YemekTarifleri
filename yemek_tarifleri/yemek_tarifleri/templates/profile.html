@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Profil</h2>
+    <p>Kullanıcı adı: {{ user.username }}</p>
+    <p>E-posta: {{ user.email }}</p>
+    <p><strong>Oluşturulan Tarif Sayısı:</strong> {{ user.recipe_set.count }}</p>
+
+    <h3>Yapılan Yorumlar</h3>
+    <ul>
+        {% for comment in user.comment_set.all %}
+            <li>{{ comment.content }} - <em>{{ comment.recipe.title }}</em></li>
+        {% empty %}
+            <li>Yapılan yorum yok.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
