@@ -111,19 +111,6 @@ def recipe_detail(request, pk):
     recipe = get_object_or_404(Recipe, pk=pk)
     comments = Comment.objects.filter(recipe=recipe)
     ratings = Rating.objects.filter(recipe=recipe)
-    average_rating = ratings.aggregate(Avg('score'))['score__avg']
-    
-    return render(request, 'recipe_detail.html', {
-        'recipe': recipe,
-        'comments': comments,
-        'average_rating': average_rating
-    })
-
-
-def recipe_detail(request, pk):
-    recipe = get_object_or_404(Recipe, pk=pk)
-    comments = Comment.objects.filter(recipe=recipe)
-    ratings = Rating.objects.filter(recipe=recipe)
     average_rating = ratings.aggregate(Avg('score'))['score__avg'] or 'Henüz puan verilmemiş'
 
     if request.method == 'POST':
