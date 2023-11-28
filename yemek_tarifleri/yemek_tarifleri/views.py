@@ -13,6 +13,7 @@ from .forms import RecipeForm, IngredientFormSet
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from .forms import CommentForm, RatingForm
+from django.contrib import messages
 
 
 
@@ -100,6 +101,9 @@ def add_recipe(request):
             recipe.save()
             formset.instance = recipe
             formset.save()
+            form = RecipeForm()
+            formset = IngredientFormSet()
+            messages.success(request, 'Tarif başarıyla eklendi.')
             
     else:
         form = RecipeForm()
