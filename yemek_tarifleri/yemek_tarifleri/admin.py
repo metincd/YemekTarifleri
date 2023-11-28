@@ -7,7 +7,7 @@ class IngredientInline(admin.TabularInline):
 
 class RecipeAdmin(admin.ModelAdmin):
     inlines = [IngredientInline]
-    list_display = ('title', 'created_by', 'created_at')
+    list_display = ('title', 'created_by', 'created_at', 'is_chef_recommended')
     search_fields = ['title', 'instructions']
     
 admin.site.register(Profile)

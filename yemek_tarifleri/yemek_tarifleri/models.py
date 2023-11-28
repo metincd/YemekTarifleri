@@ -26,6 +26,8 @@ class Recipe(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='recipes/')
     created_at = models.DateTimeField(auto_now_add=True)
+    is_chef_recommended = models.BooleanField(default=False)
+
     category = models.CharField(
         max_length=2,
         choices=CATEGORY_CHOICES,
