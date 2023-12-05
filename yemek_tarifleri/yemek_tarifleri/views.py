@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
-from yemek_tarifleri.models import Recipe, Comment, Rating
+from yemek_tarifleri.yemek_tarifleri.models import Recipe, Comment, Rating
 from django.shortcuts import render
 from .models import Recipe, Comment
 from django.db.models import Avg, Count

@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'yemek_tarifleri.apps.YemekTarifleriConfig',
+    'yemek_tarifleri.yemek_tarifleri.apps.YemekTarifleriConfig',
 ]
 
 MIDDLEWARE = [
@@ -40,7 +40,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'yemek_tarifleri.urls'
+ROOT_URLCONF = 'yemek_tarifleri.yemek_tarifleri.urls'
 
 TEMPLATES = [
     {
@@ -59,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'yemek_tarifleri.wsgi.application'
+WSGI_APPLICATION = 'yemek_tarifleri.yemek_tarifleri.wsgi.application'
 
 
 # Database
@@ -68,10 +68,10 @@ WSGI_APPLICATION = 'yemek_tarifleri.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'metin',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'metin123',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

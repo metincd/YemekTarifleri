@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path
 from django.db.models import Q
 from django.shortcuts import render
-from yemek_tarifleri.models import Recipe
+from yemek_tarifleri.yemek_tarifleri.models import Recipe
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
