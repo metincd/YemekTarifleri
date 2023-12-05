@@ -40,7 +40,8 @@ class Recipe(models.Model):
     
 class Ingredient(models.Model):
     UNIT_CHOICES = [
-        ('KSK', 'Kaşık'),
+        ('YKSK', 'Yemek Kaşığı'),
+        ('CKSK', 'Çay Kaşığı'),
         ('BRD', 'Bardak'),
         ('KG', 'Kilogram'),
         ('GR', 'Gram'),
@@ -49,12 +50,13 @@ class Ingredient(models.Model):
         ('GZK', 'Göz Kararı'),
         ('ADT', 'Adet'),
         ('YDM', 'Yudum'),
+        ('KP', 'Kepçe'),
     ]
 
     recipe = models.ForeignKey(Recipe, related_name='ingredients', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     quantity = models.DecimalField(max_digits=5, decimal_places=2)
-    unit = models.CharField(max_length=3, choices=UNIT_CHOICES)
+    unit = models.CharField(max_length=4, choices=UNIT_CHOICES)
 
     def __str__(self):
         return f"{self.quantity} {self.get_unit_display()} {self.name}"
