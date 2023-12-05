@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Tarif Ekle</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ formset }}
+    <button type="submit">Tarif Ekle</button>
+</form>
+{% endblock %}
