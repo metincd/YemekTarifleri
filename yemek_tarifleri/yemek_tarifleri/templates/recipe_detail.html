@@ -7,6 +7,12 @@
 
 <p>Ortalama Puan: {{ average_rating|default:"Henüz puan verilmemiş" }}</p>
 
+<p>Miktar ve Malzemeler:</p>
+<ul>
+{% for ingredient in recipe.ingredients.all %}
+    <li>{{ ingredient }}</li>
+{% endfor %}
+
 <h2>Yorumlar</h2>
 {% for comment in comments %}
 <div class="comment">
