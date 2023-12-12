@@ -68,8 +68,11 @@ def search_recipes(request):
 #Top Recipes
 
 def top_rated_recipes(request):
-    recipes = Recipe.objects.annotate(average_rating=Avg('ratings__score')).order_by('-average_rating')[:5]
-    
+    recipes = Recipe.objects.annotate(
+        average_rating=Avg('ratings__score'),
+        num_ratings=Count('ratings')
+    ).order_by('-average_rating')[:5]
+
     for recipe in recipes:
         if recipe.average_rating:
             recipe.average_rating = f"{recipe.average_rating:.2f}"
@@ -118,7 +121,12 @@ def add_recipe(request):
     return render(request, 'add_recipe.html', {'form': form, 'formset': formset})
 
 def en_tarifler(request):
-    top_rated_recipes = Recipe.objects.annotate(average_rating=Avg('ratings__score')).order_by('-average_rating')[:5]
+    #add top rated recipes and number of how many ratings
+    top_rated_recipes = Recipe.objects.annotate(
+        average_rating=Avg('ratings__score'),
+        num_ratings=Count('ratings')
+    ).order_by('-average_rating')[:5]
+    #top_rated_recipes = Recipe.objects.annotate(average_rating=Avg('ratings__score')).order_by('-average_rating')[:5]
     latest_recipes = Recipe.objects.all().order_by('-created_at')[:5]
     most_commented_recipes = Recipe.objects.annotate(comment_count=Count('comments')).order_by('-comment_count')[:5]
 

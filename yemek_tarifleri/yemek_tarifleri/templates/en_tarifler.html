@@ -8,6 +8,7 @@
             <li>
                 <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
                 - Ortalama Puan: {{ recipe.average_rating|floatformat:2 }}
+                - Toplam Oy: {{ recipe.num_ratings }}
             </li>
         {% endfor %}
     </ul>
