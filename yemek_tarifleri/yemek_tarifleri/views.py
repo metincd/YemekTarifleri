@@ -69,6 +69,13 @@ def search_recipes(request):
 
 def top_rated_recipes(request):
     recipes = Recipe.objects.annotate(average_rating=Avg('ratings__score')).order_by('-average_rating')[:5]
+    
+    for recipe in recipes:
+        if recipe.average_rating:
+            recipe.average_rating = f"{recipe.average_rating:.2f}"
+        else:
+            recipe.average_rating = "Henüz puan verilmemiş"
+
     return render(request, 'top_rated_recipes.html', {'recipes': recipes})
 
 
@@ -115,7 +122,13 @@ def recipe_detail(request, pk):
     recipe = get_object_or_404(Recipe, pk=pk)
     comments = Comment.objects.filter(recipe=recipe)
     ratings = Rating.objects.filter(recipe=recipe)
-    average_rating = ratings.aggregate(Avg('score'))['score__avg'] or 'Henüz puan verilmemiş'
+    average_rating = ratings.aggregate(Avg('score'))['score__avg']
+
+    if average_rating is None:
+        average_rating_display = 'Henüz puan verilmemiş'
+    else:
+        # average_rating varsa, iki ondalık basamağa yuvarla
+        average_rating_display = f"{average_rating:.2f}"
 
     if request.method == 'POST':
         if 'submit_comment' in request.POST:  # Yorum formunun gönderilme işlemi
@@ -141,7 +154,7 @@ def recipe_detail(request, pk):
     return render(request, 'recipe_detail.html', {
         'recipe': recipe,
         'comments': comments,
-        'average_rating': average_rating,
+        'average_rating': average_rating_display,
         'comment_form': comment_form,
         'rating_form': rating_form
     })
