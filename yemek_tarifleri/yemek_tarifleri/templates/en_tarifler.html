@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>En Beğenilen Tarifler</h2>
+    <!-- Top Rated Recipes -->
+    <ul>
+        {% for recipe in top_rated_recipes %}
+            <li>
+                <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
+                - Ortalama Puan: {{ recipe.average_rating|floatformat:2 }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>En Yeni Tarifler</h2>
+    <!-- Latest Recipes -->
+    <ul>
+        {% for recipe in latest_recipes %}
+            <li>
+                <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>En Çok Yorum Alan Tarifler</h2>
+    <!-- Most Commented Recipes -->
+    <ul>
+        {% for recipe in most_commented_recipes %}
+            <li>
+                <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
