@@ -4,7 +4,10 @@
     <h2>En Beğenilen Tarifler</h2>
     <ul>
         {% for recipe in recipes %}
-            <li>{{ recipe.title }} - Ortalama Puan: {{ recipe.average_rating }}</li>
+            <li>
+                <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
+                - Ortalama Puan: {{ recipe.average_rating|floatformat:2 }}
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}
