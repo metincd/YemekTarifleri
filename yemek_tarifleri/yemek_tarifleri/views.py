@@ -117,6 +117,19 @@ def add_recipe(request):
         formset = IngredientFormSet()
     return render(request, 'add_recipe.html', {'form': form, 'formset': formset})
 
+def en_tarifler(request):
+    top_rated_recipes = Recipe.objects.annotate(average_rating=Avg('ratings__score')).order_by('-average_rating')[:5]
+    latest_recipes = Recipe.objects.all().order_by('-created_at')[:5]
+    most_commented_recipes = Recipe.objects.annotate(comment_count=Count('comments')).order_by('-comment_count')[:5]
+
+    context = {
+        'top_rated_recipes': top_rated_recipes,
+        'latest_recipes': latest_recipes,
+        'most_commented_recipes': most_commented_recipes,
+    }
+
+    return render(request, 'en_tarifler.html', context)
+
 
 def recipe_detail(request, pk):
     recipe = get_object_or_404(Recipe, pk=pk)
