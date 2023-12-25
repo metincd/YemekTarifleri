@@ -17,8 +17,16 @@ class Category(models.Model):
 
 class Recipe(models.Model):
     CATEGORY_CHOICES = [
-        ('TR', 'Traditional'),
-        ('IN', 'International'),
+        ('MAIN', 'Ana Yemekler'),
+        ('APP', 'Aperatifler'),
+        ('DES', 'Tatlılar'),
+        ('VEGAN', 'Vegan'),
+        ('VEG', 'Vejetaryen'),
+        ('SEA', 'Deniz Ürünleri'),
+        ('SOUP', 'Çorbalar'),
+        ('SALAD', 'Salatalar'),
+        ('QUICK', 'Hızlı ve Kolay'),
+        ('HEALTHY', 'Sağlıklı Tarifler'),
         ('SP', 'Special'),
     ]
     title = models.CharField(max_length=200)
@@ -29,7 +37,7 @@ class Recipe(models.Model):
     is_chef_recommended = models.BooleanField(default=False)
 
     category = models.CharField(
-        max_length=2,
+        max_length=200,
         choices=CATEGORY_CHOICES,
         default='TR'
     )

@@ -64,3 +64,18 @@ button {
 button:hover {
     background-color: #4cae4c;
 }
+
+.container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+.left-column, .right-column {
+    width: 48%;
+  }
+  
+.recipe img {
+    max-width: 100%;
+    height: auto;
+  }
+  
