@@ -67,15 +67,29 @@ button:hover {
 
 .container {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-  }
-  
+    align-items: flex-start;
+}
+
 .left-column, .right-column {
-    width: 48%;
-  }
-  
+    flex: 1;
+    margin: 0 10px;
+}
+
 .recipe img {
     max-width: 100%;
     height: auto;
-  }
-  
+}
+
+/* Ekran küçüldüğünde sütunları dikey olarak düzenle */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-column, .right-column {
+        width: 100%;
+        margin: 10px 0;
+    }
+}

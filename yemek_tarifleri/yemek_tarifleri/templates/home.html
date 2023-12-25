@@ -16,6 +16,7 @@
             <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" width="100">
           </a>
           <p>{{ recipe.instructions|slice:":100" }}...</p>
+          <p>Yazar: {{ recipe.created_by.username }}</p>
         </div>
       {% empty %}
         <p>Henüz tarif eklenmemiş.</p>
@@ -26,8 +27,17 @@
   <div class="right-column">
     <h2>Kategoriler</h2>
     <ul>
-      <li>Kategori 1</li>
-      <li>Kategori 2</li>
+      <li><a href="{% url 'category_recipes' category='MAIN' %}">Ana Yemekler</a></li>
+      <li><a href="{% url 'category_recipes' category='APP' %}">Aperatifler</a></li>
+      <li><a href="{% url 'category_recipes' category='DES' %}">Tatlılar</a></li>
+      <li><a href="{% url 'category_recipes' category='VEGAN' %}">Vegan</a></li>
+      <li><a href="{% url 'category_recipes' category='VEG' %}">Vejetaryen</a></li>
+      <li><a href="{% url 'category_recipes' category='SEA' %}">Deniz Ürünleri</a></li>
+      <li><a href="{% url 'category_recipes' category='SOUP' %}">Çorbalar</a></li>
+      <li><a href="{% url 'category_recipes' category='SALAD' %}">Salatalar</a></li>
+      <li><a href="{% url 'category_recipes' category='QUICK' %}">Hızlı ve Kolay</a></li>
+      <li><a href="{% url 'category_recipes' category='HEALTHY' %}">Sağlıklı Tarifler</a></li>
+      <li><a href="{% url 'category_recipes' category='SP' %}">Special</a></li>
     </ul>
   </div>
 </div>

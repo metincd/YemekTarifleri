@@ -21,7 +21,7 @@ def welcome(request):
     return HttpResponse("Welcome to recipes homepage!")
 
 def home(request):
-    recipes = Recipe.objects.all()
+    recipes = Recipe.objects.all().order_by('-created_at')
     return render(request, 'home.html', {'recipes': recipes})
 
 def signup(request):
@@ -63,6 +63,13 @@ def search_recipes(request):
     else:
         recipes = Recipe.objects.all()
     return render(request, 'search_results.html', {'recipes': recipes})
+
+
+def category_recipes(request, category):
+    recipes = Recipe.objects.filter(category=category)
+    if not recipes.exists():
+        return render(request, 'category_recipes.html', {'message': f"Bu kategoride ({category}) henüz tarif eklenmemiş."})
+    return render(request, 'category_recipes.html', {'recipes': recipes})
 
 
 #Top Recipes
