@@ -5,8 +5,9 @@
 <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" width="200">
 <p>{{ recipe.instructions }}</p>
 
-<p>Ortalama Puan: {{ average_rating|default:"Henüz puan verilmemiş" }}</p>
+<p>Ortalama Puan: {{ average_rating }}</p>
 <p>Toplam Kalori: {{ recipe.calculate_total_calories }} kcal</p>
+
 <h2>Tarif Adımları</h2>
 {% if steps %}
 <ol>
@@ -21,13 +22,14 @@
 <p>Miktar ve Malzemeler:</p>
 <ul>
 {% for ingredient in recipe.ingredients.all %}
-    <li>{{ ingredient }}</li>
+    <li>{{ ingredient.quantity }} gram {{ ingredient.name }}</li>
 {% endfor %}
+</ul>
 
 <h2>Yorumlar</h2>
 {% for comment in comments %}
 <div class="comment">
-    <p> <a href="{% url 'user_profile' username=comment.author.username %}">{{ comment.author.username }}</a></p>
+    <p><a href="{% url 'user_profile' username=comment.author.username %}">{{ comment.author.username }}</a></p>
     <p>{{ comment.content }}</p>
 </div>
 {% empty %}
@@ -41,9 +43,7 @@
     {{ comment_form.as_p }}
     <input type="submit" name="submit_comment" value="Yorum Gönder">
 </form>
-{% endif %}
 
-{% if user.is_authenticated %}
 <h3>Puan Ver</h3>
 <form method="post" action="">
     {% csrf_token %}
@@ -51,5 +51,4 @@
     <input type="submit" name="submit_rating" value="Puan Ver">
 </form>
 {% endif %}
-
 {% endblock %}
