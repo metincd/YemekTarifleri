@@ -6,6 +6,16 @@
 <p>{{ recipe.instructions }}</p>
 
 <p>Ortalama Puan: {{ average_rating|default:"Henüz puan verilmemiş" }}</p>
+<h2>Tarif Adımları</h2>
+{% if steps %}
+<ol>
+    {% for step in steps %}
+    <li>{{ step }}</li>
+    {% endfor %}
+</ol>
+{% else %}
+<p>Bu tarife ait adım bulunmamaktadır.</p>
+{% endif %}
 
 <p>Miktar ve Malzemeler:</p>
 <ul>
