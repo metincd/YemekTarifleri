@@ -5,13 +5,16 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    
+
     {{ formset.management_form }}
 
     <div id="formset-container">
         {% for form in formset %}
             <div class="ingredient-form">
-                {{ form.as_p }}
+                {{ form.name.label_tag }}: {{ form.name }}<br>
+                {{ form.quantity.label_tag }} (gram): {{ form.quantity }}<br>
+                {{ form.unit.label_tag }}: {{ form.unit }}<br>
+                {{ form.DELETE }}
             </div>
         {% endfor %}
     </div>
@@ -27,16 +30,15 @@
     <button type="submit">Tarif Ekle</button>
 </form>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#add-more-ingredients').click(function() {
             var formIndex = $('#id_{{ formset.prefix }}-TOTAL_FORMS').val();
             var newForm = $('.ingredient-form:first').clone(true);
-            newForm.find(':input').each(function() {
-                var newName = $(this).attr('name').replace('-0-', '-' + formIndex + '-');
-                var newId = 'id_' + newName;
-                $(this).attr({'name': newName, 'id': newId}).val('').removeAttr('checked');
+            newForm.find('label[for$="-quantity"]').each(function() {
+                $(this).text($(this).text().replace(':', ' (gram):'));
             });
             newForm.insertAfter('.ingredient-form:last');
             $('#id_{{ formset.prefix }}-TOTAL_FORMS').val(parseInt(formIndex) + 1);

@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
-from yemek_tarifleri.yemek_tarifleri.models import Recipe, Comment, Rating, User, Ingredient
+from yemek_tarifleri.yemek_tarifleri.models import Recipe, Comment, Rating, User
 from django.shortcuts import render
 from django.db.models import Avg, Count
 from .forms import RecipeForm, IngredientFormSet
@@ -13,7 +13,6 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from .forms import CommentForm, RatingForm
 from django.contrib import messages
-from decimal import Decimal
 
 
 def welcome(request):
@@ -149,6 +148,8 @@ def recipe_detail(request, pk):
     ratings = Rating.objects.filter(recipe=recipe)
     average_rating = ratings.aggregate(Avg('score'))['score__avg']
     average_rating_display = 'Henüz puan verilmemiş' if average_rating is None else f"{average_rating:.2f}"
+    steps = recipe.steps.split('\n') if recipe.steps else []
+
 
     if request.method == 'POST':
         if 'submit_comment' in request.POST:
@@ -158,19 +159,20 @@ def recipe_detail(request, pk):
                 comment.recipe = recipe
                 comment.author = request.user
                 comment.save()
+                messages.success(request, 'Yorumunuz eklendi.')
                 return redirect('recipe_detail', pk=pk)
         elif 'submit_rating' in request.POST:
             rating_form = RatingForm(request.POST)
             if rating_form.is_valid():
-                rating, created = Rating.objects.get_or_create(
+                rating, created = Rating.objects.update_or_create(
                     recipe=recipe, 
-                    user=request.user, 
+                    user=request.user,
                     defaults={'score': rating_form.cleaned_data['score']}
                 )
                 if created:
                     messages.success(request, 'Puanınız kaydedildi.')
                 else:
-                    messages.info(request, 'Zaten bu tarife puan verdiniz.')
+                    messages.info(request, 'Puanınız güncellendi.')
                 return redirect('recipe_detail', pk=pk)
     else:
         comment_form = CommentForm()
@@ -178,7 +180,7 @@ def recipe_detail(request, pk):
 
     return render(request, 'recipe_detail.html', {
         'recipe': recipe,
-        'steps': recipe.steps.split('\n') if recipe.steps else [],
+        'steps': steps,
         'comments': comments,
         'average_rating': average_rating_display,
         'comment_form': comment_form,
