@@ -5,7 +5,53 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    {{ formset }}
+    
+    <!-- Malzemeler için formset -->
+    {{ formset.management_form }}
+    <div id="formset-container">
+        {% for form in formset %}
+            <div class="ingredient-form">
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
+    </div>
+    <button type="button" id="add-more-ingredients">Daha Fazla Malzeme Ekle</button>
+
+    <!-- Tarif adımları için alan -->
+    <div id="steps-container">
+        <label for="id_steps">Tarif Adımları:</label>
+        <textarea id="id_steps" name="steps" rows="5" placeholder="Adım 1"></textarea>
+    </div>
+    <button type="button" id="add-more-steps">Daha Fazla Adım Ekle</button>
+
     <button type="submit">Tarif Ekle</button>
 </form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#add-more-ingredients').click(function() {
+            var formIndex = $('#id_{{ formset.prefix }}-TOTAL_FORMS').val();
+            var newForm = $('.ingredient-form:first').clone(true);
+            newForm.find(':input').each(function() {
+                var newName = $(this).attr('name').replace('-0-', '-' + formIndex + '-');
+                var newId = 'id_' + newName;
+                $(this).attr({'name': newName, 'id': newId}).val('').removeAttr('checked');
+            });
+            newForm.insertAfter('.ingredient-form:last');
+            $('#id_{{ formset.prefix }}-TOTAL_FORMS').val(parseInt(formIndex) + 1);
+        });
+
+        var stepIndex = 1;
+        $('#add-more-steps').click(function() {
+            stepIndex++;
+            var newStep = $('<textarea></textarea>')
+                .attr('name', 'steps_' + stepIndex)
+                .attr('rows', '5')
+                .attr('placeholder', 'Adım ' + stepIndex);
+            $('#steps-container').append(newStep);
+        });
+    });
+</script>
+
 {% endblock %}

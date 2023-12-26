@@ -181,6 +181,7 @@ def recipe_detail(request, pk):
 
     return render(request, 'recipe_detail.html', {
         'recipe': recipe,
+        'steps': recipe.steps.split('\n') if recipe.steps else [],
         'comments': comments,
         'average_rating': average_rating_display,
         'comment_form': comment_form,

@@ -5,7 +5,7 @@ from .models import Recipe, Comment, Rating
 class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
-        fields = ['id', 'title', 'ingredients', 'instructions', 'created_by', 'image']
+        fields = ['id', 'title', 'ingredients', 'instructions', 'steps', 'created_by', 'image']
         
 
 class CommentSerializer(serializers.ModelSerializer):

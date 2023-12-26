@@ -35,6 +35,7 @@ class Recipe(models.Model):
     image = models.ImageField(upload_to='recipes/')
     created_at = models.DateTimeField(auto_now_add=True)
     is_chef_recommended = models.BooleanField(default=False)
+    steps = models.TextField(verbose_name='Tarif Adımları', default='')
 
     category = models.CharField(
         max_length=200,
