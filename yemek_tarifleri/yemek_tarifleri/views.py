@@ -5,9 +5,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
-from yemek_tarifleri.yemek_tarifleri.models import Recipe, Comment, Rating
+from yemek_tarifleri.yemek_tarifleri.models import Recipe, Comment, Rating, User
 from django.shortcuts import render
-from .models import Recipe, Comment
 from django.db.models import Avg, Count
 from .forms import RecipeForm, IngredientFormSet
 from django.contrib.auth.decorators import login_required
@@ -187,3 +186,8 @@ def recipe_detail(request, pk):
         'comment_form': comment_form,
         'rating_form': rating_form
     })
+
+def user_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    recipes = Recipe.objects.filter(created_by=user)
+    return render(request, 'user_profile.html', {'profile_user': user, 'recipes': recipes})

@@ -23,6 +23,7 @@ urlpatterns = [
     path('recipe/<int:pk>/', views.recipe_detail, name='recipe_detail'),
     path('en-tarifler/', views.en_tarifler, name='en_tarifler'),
     path('category/<category>/', views.category_recipes, name='category_recipes'),
+    path('profile/<str:username>/', views.user_profile, name='user_profile'),
 ]
 
 if settings.DEBUG:
