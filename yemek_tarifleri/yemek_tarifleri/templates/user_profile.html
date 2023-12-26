@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{{ profile_user.username }}'nin Profili</h2>
+    <p>Kullanıcı adı: {{ profile_user.username }}</p>
+    <p>E-posta: {{ profile_user.email }}</p>
+    <p><strong>Oluşturulan Tarif Sayısı:</strong> {{ recipes.count }}</p>
+
+    <h3>Oluşturulan Tarifler</h3>
+    {% if recipes %}
+        <ul>
+            {% for recipe in recipes %}
+                <li>
+                    <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
+                    - <small>{{ recipe.created_at }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Henüz tarif eklenmemiş.</p>
+    {% endif %}
+{% endblock %}
