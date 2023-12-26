@@ -6,6 +6,7 @@
 <p>{{ recipe.instructions }}</p>
 
 <p>Ortalama Puan: {{ average_rating|default:"Henüz puan verilmemiş" }}</p>
+<p>Toplam Kalori: {{ recipe.calculate_total_calories }} kcal</p>
 <h2>Tarif Adımları</h2>
 {% if steps %}
 <ol>
@@ -26,7 +27,7 @@
 <h2>Yorumlar</h2>
 {% for comment in comments %}
 <div class="comment">
-    <strong>{{ comment.author.username }}</strong>:
+    <p> <a href="{% url 'user_profile' username=comment.author.username %}">{{ comment.author.username }}</a></p>
     <p>{{ comment.content }}</p>
 </div>
 {% empty %}
