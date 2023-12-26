@@ -81,6 +81,9 @@ class Rating(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='ratings', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     score = models.IntegerField()
+
+    class Meta:
+        unique_together = ('recipe', 'user')
     
     
 class Favorite(models.Model):

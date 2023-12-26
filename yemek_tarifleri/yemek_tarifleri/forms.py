@@ -26,6 +26,8 @@ class CommentForm(forms.ModelForm):
         fields = ['content']
         
 class RatingForm(forms.ModelForm):
+    score = forms.ChoiceField(choices=[(i, i) for i in range(1, 11)], widget=forms.Select(), label="Puan")
+
     class Meta:
         model = Rating
         fields = ['score']

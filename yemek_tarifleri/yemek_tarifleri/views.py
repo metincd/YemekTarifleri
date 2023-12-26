@@ -151,15 +151,10 @@ def recipe_detail(request, pk):
     comments = Comment.objects.filter(recipe=recipe)
     ratings = Rating.objects.filter(recipe=recipe)
     average_rating = ratings.aggregate(Avg('score'))['score__avg']
-
-    if average_rating is None:
-        average_rating_display = 'Henüz puan verilmemiş'
-    else:
-        # average_rating varsa, iki ondalık basamağa yuvarla
-        average_rating_display = f"{average_rating:.2f}"
+    average_rating_display = 'Henüz puan verilmemiş' if average_rating is None else f"{average_rating:.2f}"
 
     if request.method == 'POST':
-        if 'submit_comment' in request.POST:  # Yorum formunun gönderilme işlemi
+        if 'submit_comment' in request.POST:
             comment_form = CommentForm(request.POST)
             if comment_form.is_valid():
                 comment = comment_form.save(commit=False)
@@ -167,13 +162,18 @@ def recipe_detail(request, pk):
                 comment.author = request.user
                 comment.save()
                 return redirect('recipe_detail', pk=pk)
-        elif 'submit_rating' in request.POST:  # Puanlama formunun gönderilme işlemi
+        elif 'submit_rating' in request.POST:
             rating_form = RatingForm(request.POST)
             if rating_form.is_valid():
-                rating = rating_form.save(commit=False)
-                rating.recipe = recipe
-                rating.user = request.user
-                rating.save()
+                rating, created = Rating.objects.get_or_create(
+                    recipe=recipe, 
+                    user=request.user, 
+                    defaults={'score': rating_form.cleaned_data['score']}
+                )
+                if created:
+                    messages.success(request, 'Puanınız kaydedildi.')
+                else:
+                    messages.info(request, 'Zaten bu tarife puan verdiniz.')
                 return redirect('recipe_detail', pk=pk)
     else:
         comment_form = CommentForm()
