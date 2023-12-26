@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Kalori Hesaplayıcı</h2>
+<div id="ingredient-list">
+    <div class="ingredient-item">
+        <label for="ingredient">Malzeme:</label>
+        <select name="ingredient" class="ingredient">
+            {% for name, calories in food_list.items %}
+                <option value="{{ calories }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="quantity">Miktar:</label>
+        <input type="number" name="quantity" class="quantity" min="0" step="any" required>
+
+        <button type="button" onclick="addIngredient()">+</button>
+    </div>
+</div>
+
+<button type="button" onclick="calculateTotalCalories()">Toplam Kaloriyi Hesapla</button>
+
+<p id="totalCalories">Toplam Kalori: 0</p>
+
+<script>
+function addIngredient() {
+    var div = document.createElement('div');
+    div.className = 'ingredient-item';
+    div.innerHTML = document.querySelector('.ingredient-item').innerHTML;
+    div.querySelector('.quantity').value = ""; 
+    document.getElementById('ingredient-list').appendChild(div);
+}
+
+function calculateTotalCalories() {
+    var ingredients = document.querySelectorAll('.ingredient');
+    var quantities = document.querySelectorAll('.quantity');
+    var totalCalories = 0;
+
+    ingredients.forEach((ingredient, index) => {
+        var calories = ingredient.value;
+        var quantity = quantities[index].value || 0;
+        totalCalories += parseFloat(calories) * parseFloat(quantity);
+    });
+
+    document.getElementById('totalCalories').textContent = 'Toplam Kalori: ' + totalCalories.toFixed(2);
+}
+</script>
+{% endblock %}
