@@ -16,7 +16,8 @@
                     <li><a href="{% url 'add_recipe' %}">Tarif Ekle</a></li>
                     <li><a href="{% url 'profile' %}">Profil</a></li>
                     <li><a href="{% url 'chef_recommended' %}">Şefin Önerileri</a></li>
-                {% else %}
+                    <a href="{% url 'calorie_calculator' %}">Kalori Hesaplayıcı</a>
+                    {% else %}
                     <li><a href="{% url 'login' %}">Giriş Yap</a></li>
                     <li><a href="{% url 'signup' %}">Kayıt Ol</a></li>
                 {% endif %}

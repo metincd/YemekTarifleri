@@ -24,6 +24,7 @@ urlpatterns = [
     path('en-tarifler/', views.en_tarifler, name='en_tarifler'),
     path('category/<category>/', views.category_recipes, name='category_recipes'),
     path('profile/<str:username>/', views.user_profile, name='user_profile'),
+    path('calorie-calculator/', views.calorie_calculator, name='calorie_calculator'),
 ]
 
 if settings.DEBUG:
