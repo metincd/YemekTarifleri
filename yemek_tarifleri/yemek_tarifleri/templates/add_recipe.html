@@ -6,8 +6,11 @@
     {% csrf_token %}
     {{ form.as_p }}
     
-    <!-- Malzemeler için formset -->
+
     {{ formset.management_form }}
+
+    {{ formset.management_form }}
+
     <div id="formset-container">
         {% for form in formset %}
             <div class="ingredient-form">
@@ -24,11 +27,14 @@
     </div>
     <button type="button" id="add-more-steps">Daha Fazla Adım Ekle</button>
 
+
+    <button type="button" id="add-more">Daha Fazla Malzeme Ekle</button>
     <button type="submit">Tarif Ekle</button>
 </form>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
     $(document).ready(function() {
         $('#add-more-ingredients').click(function() {
             var formIndex = $('#id_{{ formset.prefix }}-TOTAL_FORMS').val();
@@ -51,6 +57,17 @@
                 .attr('placeholder', 'Adım ' + stepIndex);
             $('#steps-container').append(newStep);
         });
+
+    $('#add-more').click(function() {
+        var formIndex = $('#id_{{ formset.prefix }}-TOTAL_FORMS').val();
+        var newForm = $('.ingredient-form:first').clone(true);
+        newForm.find(':input').each(function() {
+            var newName = $(this).attr('name').replace('-0-', '-' + formIndex + '-');
+            var newId = 'id_' + newName;
+            $(this).attr({'name': newName, 'id': newId}).val('').removeAttr('checked');
+        });
+        newForm.insertBefore('#add-more');
+        $('#id_{{ formset.prefix }}-TOTAL_FORMS').val(parseInt(formIndex) + 1);
     });
 </script>
 
