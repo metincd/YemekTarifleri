@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: python manage.py runserver
+web: gunicorn /yemek_tarifleri/yemek_tarifleri.wsgi --log-file -
